@@ -57,3 +57,19 @@ WHERE (player_id,event_date) in (SELECT player_id,DATE(MIN(event_date)+1)
 FROM activity GROUP BY player_id))/(SELECT COUNT(DISTINCT player_id) FROM activity),2) as fraction  
 ```
 ***
+
+####  571. Find Median Given Frequency of Numbers
+
+* 1:1 Recursive
+
+```mysql
+SELECT AVG(number) as median
+FROM (
+SELECT n1.number
+FROM numbers n1, numbers n2
+WHERE n1.number>n2.number
+GROUP BY n1.number
+HAVING SUM(n2.frequency)>=(SELECT SUM(frequency) FROM number)/2
+and SUM(n2.frequency)-AVG(n1.frequency)<=(SELECT SUM(frequency) FROM number)/2) s
+```
+***
