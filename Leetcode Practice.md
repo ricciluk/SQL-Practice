@@ -1,7 +1,7 @@
 
 #### 1285. Find the Start and End Number of Continuous Ranges
 
-##### Window Function
+* Window Function
 
 ```mysql
 SELECT
@@ -19,7 +19,7 @@ using `row_number` to generate the row index, then group by the difference betwe
 
 
 
-##### Subquery
+* Subquery
 
 ```mysql
 SELECT start_id, MIN(end_id) as end_id
@@ -34,7 +34,7 @@ GROUP BY start_id
 
 #### 534. Game Play Analysis II
 
-##### Window Function
+* Window Function
 
 ```mysql
 SELECT player_id, event_date, SUM(games_played) 
@@ -48,7 +48,7 @@ FROM activity
 
 ####  550. Game Play Analysis IV
 
-##### Subquery
+* Subquery
 
 ```mysql
 SELECT ROUND((select count(*)
