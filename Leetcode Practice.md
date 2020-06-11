@@ -1,4 +1,3 @@
-### 
 
 #### 1285. Find the Start and End Number of Continuous Ranges
 
@@ -6,8 +5,8 @@
 
 ```mysql
 SELECT
-    min(log_id) as start_id,
-    max(log_id) as end_id
+    MIN(log_id) as start_id,
+    MAX(log_id) as end_id
 FROM
     (SELECT
         log_id, 
@@ -15,20 +14,20 @@ FROM
     FROM Logs) b
 GROUP BY a
 ```
-
-using row_number to generate the row index, then group by the difference
+rationale:  
+using `row_number` to generate the row index, then group by the difference between value and row index
 
 
 
 ##### Subquery
 
 ```mysql
-SELECT start_id, min(end_id) as end_id
-from 
-(select log_id start_id from logs where log_id-1 not in (select * from logs))a,
-(select log_id end_id from logs where log_id+1 not in (select * from logs))b
-where start_id<=end_id
-group by start_id
+SELECT start_id, MIN(end_id) as end_id
+FROM 
+(SELECT log_id start_id FROM logs WHERE log_id-1 NOT IN (select * from logs))a,
+(SELECT log_id end_id FROM logs WHERE log_id+1 NOT IN (select * from logs))b
+WHERE start_id<=end_id
+GROUP BY start_id
 ```
 
 
@@ -38,9 +37,9 @@ group by start_id
 ##### Window Function
 
 ```mysql
-select player_id, event_date, sum(games_played) 
-over(partition by player_id order by event_date rows between unbounded preceding and current row) as games_played_so_far 
-from activity
+SELECT player_id, event_date, SUM(games_played) 
+OVER(PARTITION BY player_id ORDER BY event_date ROWS BETWEEN UNBOUNDED PRECEDING and CURRENT ROW) as games_played_so_far 
+FROM activity
 ```
 
 
@@ -50,8 +49,8 @@ from activity
 ##### Subquery
 
 ```mysql
-select round((select count(*)
-from activity
-where (player_id,event_date) in (select player_id,date(min(event_date)+1) from activity group by player_id))/(select count(distinct player_id) from activity),2) as fraction  
+SELECT ROUND((select count(*)
+FROM activity
+WHERE (player_id,event_date) in (SELECT player_id,DATE(MIN(event_date)+1) FROM activity GROUP BY player_id))/(SELECT COUNT(DISTINCT player_id) FROM activity),2) as fraction  
 ```
 
