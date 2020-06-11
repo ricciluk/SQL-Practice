@@ -30,7 +30,7 @@ WHERE start_id<=end_id
 GROUP BY start_id
 ```
 
-
+***
 
 #### 534. Game Play Analysis II
 
@@ -38,10 +38,12 @@ GROUP BY start_id
 
 ```mysql
 SELECT player_id, event_date, SUM(games_played) 
-OVER(PARTITION BY player_id ORDER BY event_date ROWS BETWEEN UNBOUNDED PRECEDING and CURRENT ROW) as games_played_so_far 
+OVER(PARTITION BY player_id ORDER BY event_date 
+ROWS BETWEEN UNBOUNDED PRECEDING and CURRENT ROW) as games_played_so_far 
 FROM activity
 ```
 
+***
 
 
 ####  550. Game Play Analysis IV
@@ -51,6 +53,7 @@ FROM activity
 ```mysql
 SELECT ROUND((select count(*)
 FROM activity
-WHERE (player_id,event_date) in (SELECT player_id,DATE(MIN(event_date)+1) FROM activity GROUP BY player_id))/(SELECT COUNT(DISTINCT player_id) FROM activity),2) as fraction  
+WHERE (player_id,event_date) in (SELECT player_id,DATE(MIN(event_date)+1) 
+FROM activity GROUP BY player_id))/(SELECT COUNT(DISTINCT player_id) FROM activity),2) as fraction  
 ```
-
+***
