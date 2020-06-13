@@ -73,3 +73,25 @@ HAVING SUM(n2.frequency)>=(SELECT SUM(frequency) FROM number)/2
 and SUM(n2.frequency)-AVG(n1.frequency)<=(SELECT SUM(frequency) FROM number)/2) s
 ```
 ***
+
+#### 1285. Team Scores in Football Tournament
+
+* UNION, CASE WHEN, LEFT JOIN, Subquery
+```mysql
+SELECT teams.team_id,team_name, IFNULL(SUM(num_points),0) AS num_points
+FROM Teams left join (
+SELECT host_team AS team_id, SUM(host_score) as num_points, 'host' as type    
+FROM 
+(SELECT host_team, CASE WHEN host_goals>guest_goals THEN 3 WHEN host_goals<guest_goals THEN 0 ELSE 1 END AS host_score
+FROM Matches) a 
+GROUP BY host_team
+UNION
+SELECT guest_team AS team_id, SUM(guest_score) as num_points, 'guest' as type    
+FROM 
+(SELECT guest_team, CASE WHEN host_goals>guest_goals THEN 0 WHEN host_goals<guest_goals THEN 3 ELSE 1 END AS guest_score
+FROM Matches) b
+GROUP BY guest_team) c
+on teams.team_id=c.team_id
+GROUP BY teams.team_id
+ORDER BY num_points DESC, teams.team_id
+```
