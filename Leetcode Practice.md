@@ -74,7 +74,8 @@ and SUM(n2.frequency)-AVG(n1.frequency)<=(SELECT SUM(frequency) FROM number)/2) 
 ```
 ***
 
-#### 1285. Team Scores in Football Tournament
+#### 1212. Team Scores in Football Tournament
+[1212](https://leetcode-cn.com/problems/team-scores-in-football-tournament/)
 
 * UNION, CASE WHEN, LEFT JOIN, Subquery
 ```mysql
