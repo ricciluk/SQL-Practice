@@ -96,3 +96,22 @@ on teams.team_id=c.team_id
 GROUP BY teams.team_id
 ORDER BY num_points DESC, teams.team_id
 ```
+
+***
+
+#### 569. Median Employee Salary
+[CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/median-employee-salary/)
+
+* 1:1 Recursive
+```mysql
+SELECT id, company, salary
+FROM employee
+WHERE id IN (
+    SELECT e1.id
+    FROM employee e1, employee e2
+    WHERE e1.company=e2.company
+    GROUP BY e1.id
+    HAVING SUM(CASE WHEN e1.salary>=e2.salary THEN 1 ELSE 0 END) >= COUNT(*)/2 AND SUM(CASE WHEN e1.salary<=e2.salary THEN 1 ELSE 0 END) >= COUNT(*)/2
+)
+GROUP BY company,salary
+```
