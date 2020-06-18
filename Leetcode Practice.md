@@ -116,5 +116,18 @@ WHERE id IN (
 )
 GROUP BY company,salary
 ```
+***
+#### 1454. Active Users
+[CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/active-users/)
+
+* 1:1 Recursive
+```mysql
+SELECT DISTINCT b.id, name 
+FROM 
+(SELECT id, DATEDIFF(login_date, lag(login_date, 4) OVER(PARTITION BY id ORDER BY id, login_date)) AS diff 
+FROM (SELECT DISTINCT * FROM Logins) a) b, accounts
+WHERE b.id=accounts.id AND diff=4
+ORDER BY b.id
+```
 
 ***
