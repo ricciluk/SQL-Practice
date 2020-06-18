@@ -120,7 +120,7 @@ GROUP BY company,salary
 #### 1454. Active Users
 [CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/active-users/)
 
-* 1:1 Recursive
+* WINDOW Function, LAG Function
 ```mysql
 SELECT DISTINCT b.id, name 
 FROM 
