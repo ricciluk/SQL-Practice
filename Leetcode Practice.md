@@ -130,5 +130,13 @@ FROM (SELECT DISTINCT * FROM Logins) a) b, accounts
 WHERE b.id=accounts.id AND diff=4
 ORDER BY b.id
 ```
+```mysql
+SELECT DISTINCT b.id, name 
+FROM 
+(SELECT id, DATEDIFF(lead(login_date, 4) OVER(PARTITION BY id ORDER BY id, login_date),login_date) AS diff 
+FROM (SELECT DISTINCT * FROM Logins) a) b, accounts
+WHERE b.id=accounts.id AND diff=4
+ORDER BY b.id
+```
 
 ***
