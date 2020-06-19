@@ -140,3 +140,19 @@ ORDER BY b.id
 ```
 
 ***
+
+#### 1280. Students and Examinations
+[CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/students-and-examinations/)
+
+* CROSS JOIN(Cartesian Product, the number of rows in the first table multiplied by the number of rows in the second table)
+```mysql
+SELECT a.student_id, a.student_name, a.subject_name, IFNULL(attended_exams,0) AS attended_exams
+FROM (
+SELECT *
+FROM students CROSS JOIN subjects) a LEFT JOIN (
+SELECT *, COUNT(*) AS attended_exams 
+FROM examinations
+GROUP BY student_id,subject_name) b
+ON a.student_id =b.student_id AND a.subject_name =b.subject_name 
+ORDER BY a.student_id, a.subject_name
+```
