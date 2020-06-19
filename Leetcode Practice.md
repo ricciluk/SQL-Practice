@@ -162,7 +162,7 @@ ORDER BY a.student_id, a.subject_name
 #### 1485. Group Sold Products By The Date
 [CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/group-sold-products-by-the-date/)
 
-* GROUP_CONCAT(return a string by concatenating values from multiple cells)
+* GROUP_CONCAT(return a string by concatenating values from multiple cells, ORDER BY can be added in GROUP_CONCAT)
 ```mysql
 SELECT sell_date, COUNT(sell_date) AS num_sold, group_concat(product ORDER BY product) AS products
 FROM (SELECT DISTINCT * FROM activities) a
