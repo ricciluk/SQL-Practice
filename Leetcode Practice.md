@@ -221,7 +221,7 @@ FROM succeeded
 WHERE success_date IN (SELECT * FROM succeeded WHERE success_date>='2019-01-01' AND success_date<='2019-12-31') AND DATE_ADD(success_date,INTERVAL 1 DAY) NOT IN 
 (SELECT * FROM succeeded WHERE success_date>='2019-01-01' AND success_date<='2019-12-31'))b
 WHERE a.id=b.id
-union
+UNION
 SELECT c.period_state,start_date,end_date
 from(
 SELECT fail_date AS start_date, 'failed' AS period_state, ROW_NUMBER() OVER(ORDER BY fail_date) AS id 
