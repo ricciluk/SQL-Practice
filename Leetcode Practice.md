@@ -192,7 +192,7 @@ RIGHT JOIN
 (SELECT CAST(@i := @i + 1 AS UNSIGNED) AS transactions_count
 FROM transactions, (SELECT @i := -1) val
 WHERE @i < (
-    SELECT ifnull(count(*),0) transactions_count
+    SELECT IFNULL(count(*),0) transactions_count
     FROM transactions 
     GROUP BY user_id, transaction_date
     ORDER BY transactions_count DESC
