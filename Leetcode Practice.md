@@ -159,12 +159,33 @@ ORDER BY a.student_id, a.subject_name
 
 ***
 
-#### 1485. Group Sold Products By The Date
-[CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/group-sold-products-by-the-date/)
+#### 1336. Number of Transactions per Visit
+[CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/number-of-transactions-per-visit/)
 
-* GROUP_CONCAT(return a string by concatenating values from multiple cells, ORDER BY can be added in GROUP_CONCAT)
+* @i := @i + 1(generate numeric sequence)
+* CAST Function(convert value into different types)
 ```mysql
-SELECT sell_date, COUNT(sell_date) AS num_sold, group_concat(product ORDER BY product) AS products
-FROM (SELECT DISTINCT * FROM activities) a
-GROUP BY sell_date
+SELECT c.transactions_count, IFNULL(visits_count,0) AS visits_count
+FROM
+(SELECT transactions_count, count(*) AS visits_count 
+FROM (
+SELECT CASE WHEN transaction_date is null THEN 0 ELSE count(*) END AS transactions_count 
+FROM (
+SELECT v.user_id,v.visit_date,t.transaction_date,t.amount
+FROM visits v
+LEFT JOIN transactions t
+ON v.user_id=t.user_id AND v.visit_date=t.transaction_date) a
+GROUP BY a.user_id,visit_date) a
+GROUP BY transactions_count) b
+RIGHT JOIN
+(SELECT cast(@i := @i + 1 AS UNSIGNED) AS transactions_count
+FROM transactions, (SELECT @i := -1) val
+WHERE @i < (
+    SELECT ifnull(count(*),0) transactions_count
+    FROM transactions 
+    GROUP BY user_id, transaction_date
+    ORDER BY transactions_count DESC
+    LIMIT 1
+) UNION SELECT 0) c
+ON c.transactions_count=b.transactions_count
 ```
