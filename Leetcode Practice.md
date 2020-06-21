@@ -162,8 +162,19 @@ ORDER BY a.student_id, a.subject_name
 #### 1336. Number of Transactions per Visit
 [CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/number-of-transactions-per-visit/)
 
-* @i := @i + 1(generate numeric sequence)
+* @i := @i + 1(generate sequential numbers)
 * CAST Function(convert value into different types)
+```
+BINARY[(N)]
+CHAR[(N)]
+DATE
+DATETIME
+DECIMAL[(M[,D])]
+SIGNED [INTEGER]
+TIME
+UNSIGNED [INTEGER]
+```
+
 ```mysql
 SELECT c.transactions_count, IFNULL(visits_count,0) AS visits_count
 FROM
@@ -178,7 +189,7 @@ ON v.user_id=t.user_id AND v.visit_date=t.transaction_date) a
 GROUP BY a.user_id,visit_date) a
 GROUP BY transactions_count) b
 RIGHT JOIN
-(SELECT cast(@i := @i + 1 AS UNSIGNED) AS transactions_count
+(SELECT CAST(@i := @i + 1 AS UNSIGNED) AS transactions_count
 FROM transactions, (SELECT @i := -1) val
 WHERE @i < (
     SELECT ifnull(count(*),0) transactions_count
