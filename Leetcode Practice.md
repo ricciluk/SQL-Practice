@@ -238,3 +238,17 @@ DATE_ADD(fail_date,INTERVAL 1 DAY) NOT IN
 WHERE c.id=d.id
 ORDER BY start_date
 ```
+
+***
+
+#### 612. Shortest Distance in a Plane
+[CLICK HERE FOR QUESTION](https://leetcode-cn.com/problems/shortest-distance-in-a-plane/)
+
+* calculation(power,sqrt...)
+```mysql
+SELECT ROUND(SQRT(POWER(ABS(p1.x-p2.x),2)+POWER(ABS(p1.y-p2.y),2)),2) AS shortest
+FROM point_2d p1, point_2d p2 
+WHERE (p1.x,p1.y)!=(p2.x,p2.y)
+ORDER BY shortest
+LIMIT 1
+```
